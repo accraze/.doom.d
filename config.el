@@ -63,7 +63,7 @@
 (setq org-log-done 'time
       org-log-into-drawer t
       org-log-state-notes-insert-after-drawers nil)
-
+(setq org-agenda-directory "~/org/")
 (after! org
 (setq org-agenda-directory "~/org/")
 (setq org-capture-templates
@@ -75,10 +75,9 @@
          "* TODO %(org-cliplink-capture)" :immediate-finish t)
         ("c" "org-protocol-capture" entry (file ,(concat org-agenda-directory "inbox.org"))
          "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t))))`
-(after! org
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-        (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)"))))
+        (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")))
 (setq org-agenda-todo-view
       `(" " "Agenda"
         ((agenda ""
@@ -130,3 +129,42 @@
   :hook(org-mode . org-fancy-priorities-mode)
   :config
   (setq org-fancy-priorities-list '("⚡" "⬆" "⬇" "☕")))
+
+(after! org
+(setq org-roam-directory "~/org/roam")
+(require 'org-roam-protocol))
+
+(use-package org-roam-server
+  :ensure t
+  :config
+  (setq org-roam-server-host "127.0.0.1"
+        org-roam-server-port 8080
+        org-roam-server-authenticate nil
+        org-roam-server-export-inline-images t
+        org-roam-server-serve-files nil
+        org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
+        org-roam-server-network-poll t
+        org-roam-server-network-arrows nil
+        org-roam-server-network-label-truncate t
+        org-roam-server-network-label-truncate-length 60
+        org-roam-server-network-label-wrap-length 20))
+
+(defun org-roam-server-open ()
+    "Ensure the server is active, then open the roam graph."
+    (interactive)
+    (org-roam-server-mode 1)
+    (browse-url-xdg-open (format "http://localhost:%d" org-roam-server-port)))
+
+;; automatically enable server-mode
+;;(after! org-roam
+;;  (org-roam-server-mode))
+(setq reftex-default-bibliography '("~/roam/biblio.bib"))
+
+;; see org-ref for use of these variables
+(setq org-ref-bibliography-notes "~/org/roam/bibliography/notes.org"
+      org-ref-default-bibliography '("~/org/roam/biblio.bib")
+      org-ref-pdf-directory "~/org/roam/pdfs/")
+(use-package! org-archive
+  :after org
+  :config
+  (setq org-archive-location "~/org/archive.org::datetree/"))

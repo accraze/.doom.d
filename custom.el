@@ -16,7 +16,7 @@
              ((org-agenda-overriding-header "Emails")
               (org-agenda-files
                '("~/org/emails.org"))))
-       (todo "NEXT"
+       (todo "STRT"
              ((org-agenda-overriding-header "In Progress")
               (org-agenda-files
                '("~/org/someday.org" "~/org/projects.org" "~/org/next.org"))))
@@ -33,7 +33,9 @@
        nil))
      ("n" "Agenda and all TODOs"
       ((agenda "")
-       (alltodo ""))))))
+       (alltodo "")))))
+ '(org-agenda-files
+   '("~/org/roam/20201225085000-explainable_ai.org" "/Users/accraze/org/archive.org" "/Users/accraze/org/inbox.org" "/Users/accraze/org/next.org" "/Users/accraze/org/projects.org" "/Users/accraze/org/someday.org")))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

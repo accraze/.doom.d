@@ -51,3 +51,5 @@
 (package! org-super-agenda)
 (package! org-pomodoro)
 (package! org-fancy-priorities)
+(package! org-roam-server)
+(package! org-ref)
