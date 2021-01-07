@@ -29,7 +29,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/Dropbox/org/")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -53,7 +53,7 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 ;;
-(setq deft-directory "~/org"
+(setq deft-directory "~/Dropbox/org"
       deft-extensions '("org" "txt")
       deft-recursive t)
 ;; Setup auth-sources for magit/forge
@@ -63,9 +63,9 @@
 (setq org-log-done 'time
       org-log-into-drawer t
       org-log-state-notes-insert-after-drawers nil)
-(setq org-agenda-directory "~/org/")
+(setq org-agenda-directory "~/Dropbox/org/")
 (after! org
-(setq org-agenda-directory "~/org/")
+(setq org-agenda-directory "~/Dropbox/org/")
 (setq org-capture-templates
       `(("i" "inbox" entry (file ,(concat org-agenda-directory "inbox.org"))
          "* TODO %?")
@@ -131,7 +131,7 @@
   (setq org-fancy-priorities-list '("⚡" "⬆" "⬇" "☕")))
 
 (after! org
-(setq org-roam-directory "~/org/roam")
+(setq org-roam-directory "~/Dropbox/org/roam")
 (require 'org-roam-protocol))
 
 (use-package org-roam-server
@@ -158,16 +158,16 @@
 ;; automatically enable server-mode
 ;;(after! org-roam
 ;;  (org-roam-server-mode))
-(setq reftex-default-bibliography '("~/roam/biblio.bib"))
+(setq reftex-default-bibliography '("~/Dropbox/org/roam/biblio.bib"))
 
 ;; see org-ref for use of these variables
-(setq org-ref-bibliography-notes "~/org/roam/bibliography/notes.org"
-      org-ref-default-bibliography '("~/org/roam/biblio.bib")
-      org-ref-pdf-directory "~/org/roam/pdfs/")
+(setq org-ref-bibliography-notes "~/Dropbox/org/roam/bibliography/notes.org"
+      org-ref-default-bibliography '("~/Dropbox/org/roam/biblio.bib")
+      org-ref-pdf-directory "~/Dropbox/org/roam/pdfs/")
 (use-package! org-archive
   :after org
   :config
-  (setq org-archive-location "~/org/archive.org::datetree/"))
+  (setq org-archive-location "~/Dropbox/org/archive.org::datetree/"))
 
 (setq org-journal-date-prefix "#+TITLE: "
       org-journal-time-prefix "* "
