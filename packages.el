@@ -53,3 +53,4 @@
 (package! org-fancy-priorities)
 (package! org-roam-server)
 (package! org-ref)
+(package! py-autopep8)
