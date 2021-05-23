@@ -78,34 +78,69 @@
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
         (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")))
-(setq org-agenda-todo-view
-      `(" " "Agenda"
-        ((agenda ""
-                 ((org-agenda-span 'day)
-                  (org-deadline-warning-days 365)))
-         (todo "TODO"
-               ((org-agenda-overriding-header "To Refile")
-                (org-agenda-files '(,(concat org-agenda-directory "inbox.org")))))
-         (todo "TODO"
-               ((org-agenda-overriding-header "Emails")
-                (org-agenda-files '(,(concat org-agenda-directory "emails.org")))))
-         (todo "NEXT"
-               ((org-agenda-overriding-header "In Progress")
-                (org-agenda-files '(,(concat org-agenda-directory "someday.org")
-                                    ,(concat org-agenda-directory "projects.org")
-                                    ,(concat org-agenda-directory "next.org")))
-                ))
-         (todo "TODO"
-               ((org-agenda-overriding-header "Projects")
-                (org-agenda-files '(,(concat org-agenda-directory "projects.org")))
-                ))
-         (todo "TODO"
-               ((org-agenda-overriding-header "One-off Tasks")
-                (org-agenda-files '(,(concat org-agenda-directory "next.org")))
-                (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))))
-         nil)))
 
-(add-to-list 'org-agenda-custom-commands `,org-agenda-todo-view)
+;; (add-to-list 'org-agenda-custom-commands, 'org-agenda-todo-view)
+(setq accraze/org-agenda-directory (file-truename "~/Dropbox/org/"))
+(use-package! org-agenda
+  :init
+  (map! "<f1>" #'accraze/switch-to-agenda)
+  (setq org-agenda-block-separator nil
+        org-agenda-start-with-log-mode t)
+  (defun accraze/switch-to-agenda ()
+    (interactive)
+    (org-agenda nil " "))
+  :config
+  (defun accraze/is-project-p ()
+  "Any task with a todo keyword subtask"
+  (save-restriction
+    (widen)
+    (let ((has-subtask)
+          (subtree-end (save-excursion (org-end-of-subtree t)))
+          (is-a-task (member (nth 2 (org-heading-components)) org-todo-keywords-1)))
+      (save-excursion
+        (forward-line 1)
+        (while (and (not has-subtask)
+                    (< (point) subtree-end)
+                    (re-search-forward "^\*+ " subtree-end t))
+          (when (member (org-get-todo-state) org-todo-keywords-1)
+            (setq has-subtask t))))
+      (and is-a-task has-subtask))))
+
+  (defun accraze/skip-projects ()
+  "Skip trees that are projects"
+  (save-restriction
+    (widen)
+    (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
+      (cond
+       ((org-is-habit-p)
+        next-headline)
+       ((accraze/is-project-p)
+        next-headline)
+       (t
+        nil)))))
+
+  (setq org-columns-default-format "%40ITEM(Task) %Effort(EE){:} %CLOCKSUM(Time Spent) %SCHEDULED(Scheduled) %DEADLINE(Deadline)")
+  (setq org-agenda-custom-commands `((" " "Agenda"
+                                      ((agenda ""
+                                               ((org-agenda-span 'week)
+                                                (org-deadline-warning-days 365)))
+                                       (todo "TODO"
+                                             ((org-agenda-overriding-header "Inbox")
+                                              (org-agenda-files '(,(expand-file-name "inbox.org" accraze/org-agenda-directory)))))
+                                       (todo "TODO"
+                                             ((org-agenda-overriding-header "Emails")
+                                              (org-agenda-files '(,(expand-file-name "emails.org" accraze/org-agenda-directory)))))
+                                       (todo "NEXT"
+                                             ((org-agenda-overriding-header "In Progress")
+                                              (org-agenda-files '(,(expand-file-name "projects.org" accraze/org-agenda-directory)))))
+                                       (todo "TODO"
+                                             ((org-agenda-overriding-header "Active Projects")
+                                              (org-agenda-skip-function #'accraze/skip-projects)
+                                              (org-agenda-files '(,(expand-file-name "projects.org" accraze/org-agenda-directory)))))
+                                       (todo "TODO"
+                                             ((org-agenda-overriding-header "One-off Tasks")
+                                              (org-agenda-files '(,(expand-file-name "next.org" accraze/org-agenda-directory)))
+                                              (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled)))))))))
 (use-package org-super-agenda
   :after org-agenda
   :init
