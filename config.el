@@ -141,25 +141,7 @@
                                              ((org-agenda-overriding-header "One-off Tasks")
                                               (org-agenda-files '(,(expand-file-name "next.org" accraze/org-agenda-directory)))
                                               (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled)))))))))
-(use-package org-super-agenda
-  :after org-agenda
-  :init
-  (setq org-super-agenda-groups '((:name "Today"
-                                   :time-grid t
-                                   :scheduled today)
-                                  (:name "Due today"
-                                   :deadline today)
-                                  (:name "Important"
-                                   :priority "A")
-                                  (:name "Overdue"
-                                   :deadline past)
-                                  (:name "Due soon"
-                                   :deadline future)
-                                  (:name "Big Outcomes"
-                                   :tag "bo")))
-  :config
-  (org-super-agenda-mode)
-  )
+
 (use-package org-fancy-priorities
   :hook(org-mode . org-fancy-priorities-mode)
   :config
