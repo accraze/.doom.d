@@ -54,3 +54,4 @@
 (package! org-ref)
 (package! py-autopep8)
 (package! py-isort)
+(package! kubel)
