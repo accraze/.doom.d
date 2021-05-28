@@ -58,6 +58,10 @@
       deft-recursive t)
 ;; Setup auth-sources for magit/forge
 (setq auth-sources '("~/.authinfo"))
+(use-package magit-section
+  :ensure t ; make sure it is installed
+  :demand t ; make sure it is loaded
+  )
 ;; org-mode-timestamp-done
 
 (setq org-log-done 'time
