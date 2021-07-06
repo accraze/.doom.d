@@ -56,3 +56,9 @@
 (package! py-autopep8)
 (package! py-isort)
 (package! kubel)
+(package! habit-rpg
+  :recipe (:host github :repo "ryjm/habitrpg.el"))
+(package! musica
+  :recipe (:host github :repo "xenodium/dotsies/" :files ("ar/musica.el")))
+(package! visual-fill-column)
+(package! org-chef)

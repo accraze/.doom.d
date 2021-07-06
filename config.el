@@ -77,7 +77,12 @@
          "* TODO [#A] Reply: %a :@home:@school:" :immediate-finish t)
         ("l" "link" entry (file ,(concat org-agenda-directory "inbox.org"))
          "* TODO %(org-cliplink-capture)" :immediate-finish t)
-        ("c" "org-protocol-capture" entry (file ,(concat org-agenda-directory "inbox.org"))
+        ("c" "Cookbook" entry (file "~/Dropbox/org/cookbook.org")
+         "%(org-chef-get-recipe-from-url)"
+         :empty-lines 1 :immediate-finish t)
+        ("m" "Manual Cookbook" entry (file "~/Dropbox/org/cookbook.org")
+         "* %^{Recipe title: }\n  :PROPERTIES:\n  :source-url:\n  :servings:\n  :prep-time:\n  :cook-time:\n  :ready-in:\n  :END:\n** Ingredients\n   %?\n** Directions\n\n" :immediate-finish t)
+        ("p" "org-protocol-capture" entry (file ,(concat org-agenda-directory "inbox.org"))
          "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t))))`
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
@@ -445,3 +450,6 @@
             (funcall file-view-function file))))))
 
   )
+
+(use-package org-chef
+  :ensure t)
