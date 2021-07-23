@@ -453,3 +453,8 @@
 
 (use-package org-chef
   :ensure t)
+
+(use-package elpher
+  :ensure t
+  :config
+  (setq gnutls-verify-error 'nil))

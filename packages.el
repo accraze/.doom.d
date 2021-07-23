@@ -62,3 +62,4 @@
   :recipe (:host github :repo "xenodium/dotsies/" :files ("ar/musica.el")))
 (package! visual-fill-column)
 (package! org-chef)
+(package! elpher)
